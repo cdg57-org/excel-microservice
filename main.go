@@ -9,8 +9,8 @@ import (
 
 	_ "github.com/denisenkom/go-mssqldb"
 	"github.com/joho/godotenv"
-	"github.com/labstack/echo"
-	"github.com/labstack/echo/middleware"
+	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 )
 
 func init() {
@@ -26,14 +26,12 @@ func init() {
 
 func main() {
 
+	// _ = file
 	e := echo.New()
 
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 
-	// e.GET("/", func(c echo.Context) error {
-	// 	return c.File("index.html")
-	// })
 	e.GET("/RGPD_EXPORT", func(c echo.Context) error {
 		file := excel.GetExcelsAllCol()
 		f := bytes.NewReader(file.Bytes())
@@ -45,6 +43,8 @@ func main() {
 		return c.Stream(http.StatusOK, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", f)
 	})
 
-	e.Logger.Fatal(e.Start(":8013"))
-
+	// e.Logger.Fatal(e.Start("127.0.0.1:8013"))
+	if err := e.Start(":1337"); err != http.ErrServerClosed {
+		log.Fatal(err)
+	}
 }

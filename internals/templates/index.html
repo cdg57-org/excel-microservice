@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" >
+	<head>
+		<title>Outils - CDG57 - Agent</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<link rel="stylesheet" media="screen" type="text/css" title="designbibleagent" href="../css/designbibleagent.css" />
+		<script src="../js/fonctions.js" type="text/javascript"></script>
+		<script src="../js/bible_agent.js" type="text/javascript"></script>
+	</head>
+	<body>
+		<table class="titreprincipal">
+			<tr>
+				<td class="retour" onclick="parent.document.location.href='http://srv-deploy:9999/'">
+					<img src="../images/quitter.png"
+					alt="quitter"
+					title="quitter"
+					>
+					</img>
+				</td>
+				<td class="logo">
+					<img src=""
+					alt=""
+					title="Logo publipostage"
+					>
+					</img>
+				</td>
+			</tr>
+		</table>
+		<br><br>
+
+<center> <font size="+15">RGPD </font> </center>
+<br><br>
+<center> <font size="+10">
+<a href="http://srv-deploy:9998/rgpd/incomplet.php" > <input type="button" value="AJOUTER COLLECTIVITE"  style='width: 500px; height: 100px'>  </a>
+
+<a href="http://srv-deploy:9998/rgpd/Dossier_complet.php" > <input type="button" value="COLLECTIVITES DOSSIER COMPLET"  style='width: 500px; height: 100px'>  </a><br>
+
+<!-- <font size="+1"><br> EXPORT DES COLLECTIVITES AYANT ADHEREES ( dossier complet et non complet)</font> <br>
+<form name="form_choix_collectivite" action="http://129.57.0.129:8013/RGPD_EXPORT" method="POST">
+		<input type="image" src="../images/exporter.png" name="sub_form_generer" value="Valider" />
+</form> -->
+
+<font size="+1"><br> EXPORT DES COLLECTIVITES AYANT ADHEREES ( dossier complet et non complet)</font> <br>
+<form name="form_choix_collectivite" action="export_col.php" method="POST">
+		<input type="image" src="../images/exporter.png" name="sub_form_generer" value="Valider" />
+</form>
+
+</FONT>
+<?
+</body>
+	</body>
+</html>

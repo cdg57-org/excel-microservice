@@ -73,15 +73,38 @@ func GetRGPDCOLL() (CDG57s []models.RGPD_COLL) {
 	defer rows.Close()
 	// var
 	// log.Println(rows.Columns())
+
+	var CDG57s_SQL []models.RGPD_COLL_SQL
+
 	for rows.Next() {
-		cdg57 := new(models.RGPD_COLL)
+		cdg57 := new(models.RGPD_COLL_SQL)
 		if err := rows.Scan(&cdg57.RgpdColCode, &cdg57.ColIdentite, &cdg57.ColEmail, &cdg57.ColTel, &cdg57.Cnracl, &cdg57.Rg, &cdg57.Autre, &cdg57.Total, &cdg57.Facture1ErAnnee, &cdg57.Facture2EmeAnnee, &cdg57.Facture3EmeAnnee, &cdg57.Facture4EmeAnnee, &cdg57.Facture5EmeAnnee); err != nil {
-			log.Panic(err)
+			log.Println(err)
 		}
-		CDG57s = append(CDG57s, *cdg57)
+		CDG57s_SQL = append(CDG57s_SQL, *cdg57)
 	}
 	if err := rows.Err(); err != nil {
 		log.Panic(err)
 	}
+	for _, cdg57_sql := range CDG57s_SQL {
+		cdg57 := models.RGPD_COLL{
+			RgpdColCode:      cdg57_sql.RgpdColCode,
+			ColIdentite:      cdg57_sql.ColIdentite,
+			ColEmail:         cdg57_sql.ColEmail.String,
+			ColTel:           cdg57_sql.ColTel.String,
+			Cnracl:           cdg57_sql.Cnracl,
+			Rg:               cdg57_sql.Rg,
+			Autre:            cdg57_sql.Autre,
+			Total:            cdg57_sql.Total,
+			Facture1ErAnnee:  cdg57_sql.Facture1ErAnnee,
+			Facture2EmeAnnee: cdg57_sql.Facture2EmeAnnee,
+			Facture3EmeAnnee: cdg57_sql.Facture3EmeAnnee,
+			Facture4EmeAnnee: cdg57_sql.Facture4EmeAnnee,
+			Facture5EmeAnnee: cdg57_sql.Facture5EmeAnnee,
+		}
+		CDG57s = append(CDG57s, cdg57)
+
+	}
+
 	return CDG57s
 }
