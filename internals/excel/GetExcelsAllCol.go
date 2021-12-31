@@ -19,15 +19,15 @@ var (
 func GetExcelsAllCol() (buf *bytes.Buffer) {
 	RGPD_COLLUMS := []string{"RGPD_COL_CODE", "COL_IDENTITE", "COL_EMAIL", "COL_TEL", "CNRACL", "RG", "AUTRE", "TOTAL", "FACTURE_1ER_ANNEE", "FACTURE_2EME_ANNEE", "FACTURE_3EME_ANNEE", "FACTURE_4EME_ANNEE", "FACTURE_5EME_ANNEE"}
 	CDG57s := database.GetRGPDCOLL()
-	// for _, coll := range CDG57s {
-	// 	log.Println(coll)
-	// }
+	for _, coll := range CDG57s {
+		log.Println(coll.RgpdColCode, coll.ColIdentite)
+	}
 
 	f := excelize.NewFile()
 
 	for i, rgpd_collum := range RGPD_COLLUMS {
 		CellID, _ := utils.GetAxis(1, i+1)
-		log.Println(i, CellID, rgpd_collum)
+		// log.Println(i, CellID, rgpd_collum)
 		f.SetCellValue(sheet, CellID, rgpd_collum)
 	}
 	for r, row := range CDG57s {

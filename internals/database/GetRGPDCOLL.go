@@ -103,7 +103,7 @@ func GetRGPDCOLL() (CDG57s []models.RGPD_COLL) {
 			Facture5EmeAnnee: cdg57_sql.Facture5EmeAnnee,
 		}
 		CDG57s = append(CDG57s, cdg57)
-
+		log.Println(cdg57_sql.RgpdColCode, cdg57_sql.ColIdentite)
 	}
 
 	return CDG57s

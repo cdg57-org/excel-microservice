@@ -21,7 +21,7 @@ func GetExcelsColComplet() (buf *bytes.Buffer) {
 	f := excelize.NewFile()
 
 	for i, rgpd_collum := range RGPD_COLLUMS {
-		CellID, _ := utils.GetAxis(1, i)
+		CellID, _ := utils.GetAxis(1, i+1)
 		// log.Println(, rgpd_collum)
 		f.SetCellValue(sheet, CellID, rgpd_collum)
 	}
@@ -36,7 +36,7 @@ func GetExcelsColComplet() (buf *bytes.Buffer) {
 
 		for i := 0; i < v.NumField(); i++ {
 			// log.Println(r, i)
-			CellID, _ := utils.GetAxis(z+1, i)
+			CellID, _ := utils.GetAxis(z+1, i+1)
 			// log.Println(CellID)
 			f.SetCellValue(sheet, CellID, v.Field(i).Interface())
 
