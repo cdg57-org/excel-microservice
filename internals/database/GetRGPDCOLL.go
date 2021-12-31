@@ -8,7 +8,11 @@ import (
 	"os"
 )
 
+
+
 var (
+
+	// SQL Variable for getting every collectivité  who responded with at least 1 document and the amount due for each years
 	RGPD_COL string = `SELECT DISTINCT RGPD_COL_CODE, COL_IDENTITE, COL_EMAIL, COL_TEL, sum(COT_ASS1) AS 'CNRACL', sum(COT_ASS2) AS 'RG', sum(COT_ASS3) AS 'AUTRE', sum(COT_ASS1+COT_ASS2+COT_ASS3) AS 'TOTAL', 
 	case
 	 WHEN  sum(COT_ASS1+COT_ASS2+COT_ASS3) < 100000 THEN 760 
@@ -55,24 +59,21 @@ func GetRGPDCOLL() (CDG57s []models.RGPD_COLL) {
 	// github.com/denisenkom/go-mssqldb
 	user := os.Getenv("DB_USERNAME")
 	pass := os.Getenv("DB_PASSWORD")
+	url := os.Getenv("DB_HOST")
 	database := os.Getenv("DB_NAME")
-	dsn := fmt.Sprintf("sqlserver://%s:%s@srv-application?database=%s", user, pass, database)
-	// dsn := ""
-	// dquery := url.Values{}
-	// query.Add("app name", "MyAppName")
+	dsn := fmt.Sprintf("sqlserver://%s:%s@%s?database=%s", user, pass, url, database)
 
-	// }
+
 	db, err := sql.Open("sqlserver", dsn)
 	if err != nil {
 		log.Println(err)
 	}
-	rows, err := db.Query(RGPD_COL) //db.Query("SELECT RGPD_COL_CODE, COL_IDENTITE, COL_EMAIL, COL_TEL FROM DATA.DBO.RGPD, DATA.DBO.COLLECTIVITES WHERE COL_CODE = rgpd_col_code AND RGPD_CONVENTION = 1 AND RGPD_DELIBERATION = 1 AND RGPD_LETTRE_DE_MISSION = 1")
+	rows, err := db.Query(RGPD_COL)
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer rows.Close()
-	// var
-	// log.Println(rows.Columns())
+
 
 	var CDG57s_SQL []models.RGPD_COLL_SQL
 

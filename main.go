@@ -24,14 +24,27 @@ func init() {
 
 func main() {
 
-	switch os := runtime.GOOS; os {
+	switch ostype := runtime.GOOS; ostype {
 	case "darwin":
 		fmt.Println("OS X.")
 	case "linux":
-		fmt.Println("Linux.")
-		err := godotenv.Load("/etc/excel-microservice/config.env")
-		if err != nil {
-			log.Fatal("Error loading .env file")
+		// fmt.Println("Linux.")
+		// err := godotenv.Load("/etc/excel-microservice/config.env", "./config.env")
+		// if err != nil {
+		// 	log.Fatal("Error loading .env file")
+		// }
+
+		env := os.Getenv("ENV")
+		if env == "dev" {
+			err := godotenv.Load("config.env")
+			if err != nil {
+				log.Fatal(err)
+			}
+		} else {
+			err := godotenv.Load("/etc/excel-microservice/config.env")
+			if err != nil {
+				log.Fatal(err)
+			}
 		}
 	case "windows":
 		err := godotenv.Load("config.env")
@@ -39,7 +52,7 @@ func main() {
 			log.Fatal("Error loading .env file")
 		}
 	default:
-		fmt.Printf("%s.\n", os)
+		fmt.Printf("%s.\n", ostype)
 	}
 
 	log.Println(runtime.GOOS)
