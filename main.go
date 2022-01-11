@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"excel-microservice/internals/excel"
 	"fmt"
+	"github.com/labstack/echo/v4"
 	"log"
 	"net/http"
 	"os"
@@ -11,7 +12,6 @@ import (
 
 	_ "github.com/denisenkom/go-mssqldb"
 	"github.com/joho/godotenv"
-	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 )
 
@@ -52,7 +52,7 @@ func main() {
 			log.Fatal("Error loading .env file")
 		}
 	default:
-		fmt.Printf("%s.\n", ostype)
+		log.Printf("%s.\n", ostype)
 	}
 
 	log.Println(runtime.GOOS)

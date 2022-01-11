@@ -1,8 +1,11 @@
 package utils
 
 import (
+	"context"
 	"fmt"
+	"net"
 	"strconv"
+	"time"
 )
 
 func conv(i int) string {
@@ -34,4 +37,21 @@ func GetAxis(row, col int) (string, error) {
 	cstr := conv(col)
 	rstr := strconv.Itoa(row)
 	return cstr + rstr, nil
+}
+
+func GetIPFromCustomDNS(dns string, host string) (out string, err error) {
+	r := &net.Resolver{
+		PreferGo: true,
+		Dial: func(ctx context.Context, network, address string) (net.Conn, error) {
+			d := net.Dialer{
+				Timeout: time.Millisecond * time.Duration(10000),
+			}
+			return d.DialContext(ctx, network, dns)
+		},
+	}
+	ip, err := r.LookupHost(context.Background(), host)
+	if err != nil {
+		return "", err
+	}
+	return ip[0], nil
 }
