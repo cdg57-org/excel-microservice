@@ -1,4 +1,4 @@
-package excel
+package rgpd
 
 import (
 	"bytes"
@@ -24,7 +24,7 @@ func GetExcelsColComplet() (buf *bytes.Buffer) {
 		_ = r
 		z := r + 1
 		v := reflect.ValueOf(row)
-	
+
 		for i := 0; i < v.NumField(); i++ {
 			CellID, _ := utils.GetAxis(z+1, i+1)
 			f.SetCellValue(sheet, CellID, v.Field(i).Interface())

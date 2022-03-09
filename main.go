@@ -2,13 +2,15 @@ package main
 
 import (
 	"bytes"
-	"excel-microservice/internals/excel"
+	"excel-microservice/internals/paie"
+	"excel-microservice/internals/rgpd"
 	"fmt"
-	"github.com/labstack/echo/v4"
 	"log"
 	"net/http"
 	"os"
 	"runtime"
+
+	"github.com/labstack/echo/v4"
 
 	_ "github.com/denisenkom/go-mssqldb"
 	"github.com/joho/godotenv"
@@ -63,13 +65,22 @@ func main() {
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 
+	// RGPD
 	e.POST("/RGPD_EXPORT", func(c echo.Context) error {
-		file := excel.GetExcelsAllCol()
+		file := rgpd.GetExcelsAllCol()
 		f := bytes.NewReader(file.Bytes())
 		return c.Stream(http.StatusOK, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", f)
 	})
 	e.POST("/RGPD_EXPORT_DOSSIER_COMPLET", func(c echo.Context) error {
-		file := excel.GetExcelsColComplet()
+		file := rgpd.GetExcelsColComplet()
+		f := bytes.NewReader(file.Bytes())
+		return c.Stream(http.StatusOK, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", f)
+	})
+
+	// PAIE
+
+	e.POST("/PAIE_REPORT", func(c echo.Context) error {
+		file := paie.GetExcelPaie()
 		f := bytes.NewReader(file.Bytes())
 		return c.Stream(http.StatusOK, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", f)
 	})
