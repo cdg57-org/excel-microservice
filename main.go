@@ -5,9 +5,11 @@ import (
 	"excel-microservice/internals/paie"
 	"excel-microservice/internals/rgpd"
 	"fmt"
+	"io"
 	"log"
 	"net/http"
 	"os"
+	"os/user"
 	"runtime"
 
 	"github.com/labstack/echo/v4"
@@ -65,6 +67,8 @@ func main() {
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 
+	e.Static("/paie", fmt.Sprintf("%s/public", os.Getenv("PAIE_FOLDER")))
+
 	// RGPD
 	e.POST("/RGPD_EXPORT", func(c echo.Context) error {
 		file := rgpd.GetExcelsAllCol()
@@ -85,8 +89,80 @@ func main() {
 		return c.Stream(http.StatusOK, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", f)
 	})
 
+	e.POST("/PaieUpload", upload)
+
+	if len(os.Getenv("PAIE_FOLDER")) == 0 {
+		e.GET("/PaieDL", func(c echo.Context) error {
+			return c.File("downloads/paie.xlsx")
+		})
+	} else {
+		e.GET("/PaieDL", func(c echo.Context) error {
+			return c.File(fmt.Sprintf("%s/downloads/paie.xlsx", os.Getenv("PAIE_FOLDER")))
+		})
+	}
+
 	// e.Logger.Fatal(e.Start("127.0.0.1:8013"))
 	if err := e.Start(os.Getenv("ADDR")); err != http.ErrServerClosed {
 		log.Fatal(err)
 	}
+}
+
+func upload(c echo.Context) error {
+	// Read form fields
+	// name := c.FormValue("name")
+	// email := c.FormValue("email")
+
+	//-----------
+	// Read file
+	//-----------
+
+	user, err := user.Current()
+	if err != nil {
+		log.Fatalf(err.Error())
+	}
+
+	username := user.Username
+
+	log.Printf("Username: %s\n", username)
+
+	// Source
+	file, err := c.FormFile("file")
+	if err != nil {
+		return err
+	}
+	src, err := file.Open()
+	if err != nil {
+		return err
+	}
+	defer src.Close()
+
+	if len(os.Getenv("PAIE_FOLDER")) == 0 {
+		dst, err := os.Create(fmt.Sprintf("downloads/%s", "paie.xlsx"))
+		// Destination
+
+		if err != nil {
+			return err
+		}
+		defer dst.Close()
+
+		// Copy
+		if _, err = io.Copy(dst, src); err != nil {
+			return err
+		}
+
+	} else {
+		dst, err := os.Create(fmt.Sprintf("%s/downloads/paie.xlsx", os.Getenv("PAIE_FOLDER")))
+		// Destination
+
+		if err != nil {
+			return err
+		}
+		defer dst.Close()
+
+		// Copy
+		if _, err = io.Copy(dst, src); err != nil {
+			return err
+		}
+	}
+	return c.HTML(http.StatusOK, fmt.Sprintf("<p>File %s uploaded successfully.</p>", file.Filename))
 }

@@ -17,7 +17,7 @@ var (
 
 func GetExcelPaie() (buf *bytes.Buffer) {
 
-	PAIES_COLLUMS := []string{"etudepaye_col_code", "COL_IDENTITE", "COL_EMAIL", "COL_TEL", "etudepaye_nbpaye", "etudepaye_mission", "etudepaye_commentaire"}
+	PAIES_COLLUMS := []string{"COL_CODE", "COL_IDENTITE", "COL_EMAIL", "COL_TEL", "NB_PAYES", "MISSION_PAYES", "Commentaire"}
 	payes := database.GetPaie()
 
 	f := excelize.NewFile()
