@@ -10,8 +10,9 @@ import (
 
 var (
 
-	// sql variable to query the collectivité who responded with every documents 
-	RGPD_COL_SQL = `SELECT 
+	// sql variable to query the collectivité who responded with every documents
+	RGPD_COL_SQL = `
+  SELECT 
 	RGPD_COL_CODE, 
 	COL_IDENTITE, 
 	COL_EMAIL, 
@@ -34,8 +35,6 @@ func GetRGPDCOMPLET() (CDG57s []models.RGPD_COLL_COMPLET) {
 	url := os.Getenv("DB_HOST")
 	database := os.Getenv("DB_NAME")
 	dsn := fmt.Sprintf("sqlserver://%s:%s@%s?database=%s", user, pass, url, database)
-
-
 
 	db, err := sql.Open("sqlserver", dsn)
 	if err != nil {

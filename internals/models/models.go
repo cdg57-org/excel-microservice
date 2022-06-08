@@ -69,3 +69,13 @@ type Etudepaye struct {
 	EtudepayeMission     string `json:"etudepaye_mission"`
 	EtudepayeCommentaire string `json:"etudepaye_commentaire"`
 }
+
+type NewEtudepaye struct {
+	EtudepayeId               string
+	EtudepayeColCode          string
+	EtudepayeNbpaye           string
+	EtudepayeNotifEngagement  string
+	EtudepayeLettreEngagement string
+	EtudepayeDeliberation     string
+	EtudepayeConvention       string
+}

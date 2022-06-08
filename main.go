@@ -89,6 +89,13 @@ func main() {
 		return c.Stream(http.StatusOK, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", f)
 	})
 
+	e.POST("/NewPaie_Export", func(c echo.Context) error {
+
+		file := paie.GetNewExcelPaie()
+		f := bytes.NewReader(file.Bytes())
+		return c.Stream(http.StatusOK, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", f)
+	})
+
 	e.POST("/PaieUpload", upload)
 
 	if len(os.Getenv("PAIE_FOLDER")) == 0 {
