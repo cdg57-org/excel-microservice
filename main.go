@@ -96,6 +96,22 @@ func main() {
 		return c.Stream(http.StatusOK, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", f)
 	})
 
+	// e.GET("/test", func(c echo.Context) error {
+	// 	log.Println("killroy was here")
+	// 	file := paie.GetNewExcelPaie()
+	// 	// f := bytes.NewReader(file.Bytes())
+	// 	err := os.WriteFile("/tmp/dat1", file.Bytes(), 0644)
+	// 	if err != nil {
+	// 		log.Println("error writing temp file")
+	// 	}
+	// 	return c.Attachment("/tmp/dat1", "test.xlsx")
+
+	// })
+
+	// e.GET("/atest", func(c echo.Context) error {
+	// 	return c.File("public/downloads.html")
+	// })
+
 	e.POST("/PaieUpload", upload)
 
 	if len(os.Getenv("PAIE_FOLDER")) == 0 {
