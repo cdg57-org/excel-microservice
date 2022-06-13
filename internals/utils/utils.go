@@ -26,6 +26,7 @@ func conv(i int) string {
 }
 
 func GetAxis(row, col int) (string, error) {
+
 	if col <= 0 {
 		return "", fmt.Errorf("column value was invalid")
 	}
@@ -36,6 +37,7 @@ func GetAxis(row, col int) (string, error) {
 	}
 	cstr := conv(col)
 	rstr := strconv.Itoa(row)
+	// log.Printf("%s = %d\n %s = %d", cstr, col, rstr, row)
 	return cstr + rstr, nil
 }
 

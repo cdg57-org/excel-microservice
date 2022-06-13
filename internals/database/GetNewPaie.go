@@ -10,17 +10,20 @@ import (
 
 var (
 	NewPAIE_SQL string = `
-	SELECT
-		etudepaye_Id,
-		etudepaye_col_code,
-		etudepaye_nbpaye,
-		etudepaye_notif_engagement,
-		etudepaye_lettre_engagement,
-		etudepaye_deliberation,
-		etudepaye_convention
-	FROM
-		[data].dbo.etudepaye2;
-	`
+SELECT
+	DISTINCT etudepaye_col_code,
+	COL_IDENTITE,
+	etudepaye_nbpaye,
+	etudepaye_notif_engagement,
+	etudepaye_lettre_engagement,
+	etudepaye_deliberation,
+	etudepaye_convention
+FROM
+	DATA.DBO.etudepaye2,
+	DATA.DBO.COLLECTIVITES
+WHERE
+	etudepaye_col_code = COL_CODE
+`
 )
 
 func GetNewPaie() (NewPaie []models.NewEtudepaye) {

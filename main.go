@@ -32,11 +32,6 @@ func main() {
 	case "darwin":
 		fmt.Println("OS X.")
 	case "linux":
-		// fmt.Println("Linux.")
-		// err := godotenv.Load("/etc/excel-microservice/config.env", "./config.env")
-		// if err != nil {
-		// 	log.Fatal("Error loading .env file")
-		// }
 
 		env := os.Getenv("ENV")
 		if env == "dev" {
@@ -61,7 +56,6 @@ func main() {
 
 	log.Println(runtime.GOOS)
 
-	// _ = file
 	e := echo.New()
 
 	e.Use(middleware.Logger())
@@ -96,22 +90,6 @@ func main() {
 		return c.Stream(http.StatusOK, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", f)
 	})
 
-	// e.GET("/test", func(c echo.Context) error {
-	// 	log.Println("killroy was here")
-	// 	file := paie.GetNewExcelPaie()
-	// 	// f := bytes.NewReader(file.Bytes())
-	// 	err := os.WriteFile("/tmp/dat1", file.Bytes(), 0644)
-	// 	if err != nil {
-	// 		log.Println("error writing temp file")
-	// 	}
-	// 	return c.Attachment("/tmp/dat1", "test.xlsx")
-
-	// })
-
-	// e.GET("/atest", func(c echo.Context) error {
-	// 	return c.File("public/downloads.html")
-	// })
-
 	e.POST("/PaieUpload", upload)
 
 	if len(os.Getenv("PAIE_FOLDER")) == 0 {
@@ -124,20 +102,12 @@ func main() {
 		})
 	}
 
-	// e.Logger.Fatal(e.Start("127.0.0.1:8013"))
 	if err := e.Start(os.Getenv("ADDR")); err != http.ErrServerClosed {
 		log.Fatal(err)
 	}
 }
 
 func upload(c echo.Context) error {
-	// Read form fields
-	// name := c.FormValue("name")
-	// email := c.FormValue("email")
-
-	//-----------
-	// Read file
-	//-----------
 
 	user, err := user.Current()
 	if err != nil {

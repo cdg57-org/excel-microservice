@@ -23,7 +23,7 @@ func GetNewExcelPaie() (buf *bytes.Buffer) {
 	}
 	payes := database.GetNewPaie()
 
-	// log.Println(payes)
+	log.Println(payes[0])
 
 	f := excelize.NewFile()
 
